@@ -25,7 +25,7 @@ Using the example, the hardware required for proper use is described below.
 
 The system is composed of four main parts:
 
-* * **The microcontroller**: brain in charge of the administration of resources.
+* **The microcontroller**: brain in charge of the administration of resources.
 * **The temperature sensor**: in charge of constantly measuring the temperature of the oven/heater and in this way can make the feedback towards the control for the respective adjustments. For this function a K-type thermocouple  is used.
 * **AC control**: in charge of handling AC, in this case I will use 220Vac/50Hz. For this purpose opto-thyristors are used, which act as a solid state relay.
 * **Zero crossing detector**: in charge of activating the thyristors from the moment in which the alternating voltage wave is detected crosses by zero.For this function a K-type thermocouple is used.
