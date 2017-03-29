@@ -33,3 +33,6 @@ The system is composed of four main parts:
 * **Zero crossing detector**: in charge of activating the thyristors from the moment in which the alternating voltage wave is detected crosses by zero.For this function a K-type thermocouple is used.
 
 ![alt tag](https://github.com/kr4fty/ovenControl/blob/master/examples/MyCalentador/circuit.png)
+
+## Practical application
+[![Oven Control](https://img.youtube.com/vi/Dz5Lqh4SREI/0.jpg)](https://www.youtube.com/watch?v=Dz5Lqh4SREI "PID Oven Control")
