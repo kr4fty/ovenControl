@@ -20,6 +20,7 @@ all the above to keep the temperature as constant as possible.
 Requires
 * [ArduinoPID library](https://github.com/br3ttb/Arduino-PID-Library).
 * [K-Type_thermocouple-Library](https://github.com/kr4fty/K-Type_thermocouple-Library).
+* [TimerOne](https://github.com/PaulStoffregen/TimerOne)
 
 ## Hardware
 
