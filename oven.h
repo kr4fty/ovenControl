@@ -13,6 +13,7 @@
 #include <Arduino.h>
 #include <PID_v1.h>
 #include <thermo.h>
+#include <TimerOne.h>
 
 class OvenControl {
 public:
@@ -42,12 +43,16 @@ private:
   uint8_t   _PWM_output;
   double    _PID_setpoint, _PID_input, _PID_output;
   bool      _turn_on_heater;
+  volatile bool _zc;
+  volatile uint16_t _dimtime;
+  volatile uint8_t _cont;
 
   kThermocouple *_myTC;
   uint8_t   _pwm_skip;              //The range of PWM to skip
   uint8_t   _temperature_accuracy;  //Set to the highest tolerable inaccuracy (units are encoder counts)
   void      _turnOnHeater();
   friend void zeroCrossInterrupt();
+  friend void dim_check();
 };
 
 

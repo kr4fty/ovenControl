@@ -66,7 +66,7 @@ void zeroCrossInterrupt()
   // 10ms=10000us
   // (10000us - 10us) / 256 = 39 (Approx) For 60Hz =>65  
     
-  int dimming= 255 - oven->_PWM_output;
+  /*int dimming= 255 - oven->_PWM_output;
   if(oven->_turn_on_heater){
     if(dimming==0){
             digitalWrite(oven->_pin_PWM_output, HIGH);
@@ -85,6 +85,35 @@ void zeroCrossInterrupt()
             digitalWrite(oven->_pin_PWM_output, LOW);   // No longer trigger the TRIAC (the next zero crossing will swith it off) TRIAC
     }
   }
+}*/
+  int dimming;
+  digitalWrite(oven->_pin_PWM_output, LOW);
+  if(oven->_PWM_output>0){
+    dimming= 255 - oven->_PWM_output;
+    if(dimming==0){
+      oven->_zc = true;
+      oven->_dimtime = 0;
+    }
+    else if(dimming==255){
+      oven->_zc = false;
+    }
+    else if(0<dimming<255){
+      oven->_zc = true;
+      oven->_dimtime = (39*dimming);
+    }
+  }
+}
+void dim_check() {
+  if(oven->_zc == true) {
+    if(oven->_cont>=oven->_dimtime) {
+      digitalWrite(oven->_pin_PWM_output, HIGH); // turn on light
+      oven->_cont=0;  // reset time step counter
+      oven->_zc = false; //reset zero cross detection
+    }
+    else {
+      oven->_cont++; // increment time step counter
+    }
+  }
 }
 
 
@@ -100,7 +129,9 @@ OvenControl::OvenControl(uint8_t pin_thermocouple, uint8_t pin_zero_crossing, ui
   pinMode(pin_PWM_output, OUTPUT);
   pinMode(pin_zero_crossing, INPUT);
   
-  attachInterrupt(0, zeroCrossInterrupt, FALLING) ;
+  attachInterrupt(digitalPinToInterrupt(_pin_zero_crossing), zeroCrossInterrupt, FALLING) ;
+  Timer1.initialize(39);
+  Timer1.attachInterrupt(dim_check, 39);
 
   _PWM_output = 0;  
   _pwm_skip = 0;
@@ -185,7 +216,6 @@ int OvenControl::getActualTemperature()
 {
   return (uint16_t) _myTC->getTempWithFilter();
 }
-
 int OvenControl::getPWMOutput()
 {
   return _PWM_output;
